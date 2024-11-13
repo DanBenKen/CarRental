@@ -60,9 +60,10 @@ namespace CarRental.Controllers
                 Make = "Mitsubishi",
                 Model = "Lancer Evo VI",
                 Year = 1999,
-                PricePerDay = 224.5m,
+                PricePerDay = 225.5m,
                 IsAvailable = true,
-                Seats = 5
+                Seats = 5,
+                ImageUrl = "lancerEvoVI.jpg"
             };
 
             Car imprezaSti = new Car()
@@ -73,13 +74,68 @@ namespace CarRental.Controllers
                 Year = 2006,
                 PricePerDay = 224.5m,
                 IsAvailable = false,
-                Seats = 5
+                Seats = 5,
+                ImageUrl = "ImprezaWRXSti.jpg"
+            };
+
+            Car bmwM3 = new Car()
+            {
+                CarId = 3,
+                Make = "BMW",
+                Model = "M3 E46",
+                Year = 2004,
+                PricePerDay = 300.0m,
+                IsAvailable = true,
+                Seats = 4,
+                ImageUrl = "M3E46.jpg"
+            };
+
+            Car audiRs6 = new Car()
+            {
+                CarId = 4,
+                Make = "Audi",
+                Model = "RS6 Avant",
+                Year = 2020,
+                PricePerDay = 500.0m,
+                IsAvailable = true,
+                Seats = 5,
+                ImageUrl = "RS6Avant.jpg"
+            };
+
+            Car toyotaSupra = new Car()
+            {
+                CarId = 5,
+                Make = "Toyota",
+                Model = "Supra MK4",
+                Year = 1998,
+                PricePerDay = 275.0m,
+                IsAvailable = false,
+                Seats = 2,
+                ImageUrl = "SupraMK4.jpg"
+            };
+
+            Car fordMustang = new Car()
+            {
+                CarId = 6,
+                Make = "Ford",
+                Model = "Mustang GT",
+                Year = 2018,
+                PricePerDay = 350.0m,
+                IsAvailable = true,
+                Seats = 4,
+                ImageUrl = "MustangGT.jpg"
+
             };
 
             cars.Add(lancerEvo6);
-            cars.Add(@imprezaSti);
+            cars.Add(imprezaSti);
+            cars.Add(bmwM3);
+            cars.Add(audiRs6);
+            cars.Add(toyotaSupra);
+            cars.Add(fordMustang);
 
             return cars;
         }
+
     }
 }

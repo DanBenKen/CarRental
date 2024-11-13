@@ -1,31 +1,70 @@
 ﻿@model IEnumerable<CarRental.Models.Car>
 
-<div>
-    <form asp-action="Index" method="get">
-        <label for="make">Make:</label>
-        <input type="text" name="make" id="make" value="@Context.Request.Query["make"]" placeholder="Search by Make" />
+<div class="container mt-4">
+    <form asp-action="Index" method="get" class="mb-4">
+        <div class="row g-3 align-items-center">
+            <!-- Search by Make -->
+            <div class="col-lg-3 col-md-6">
+                <label for="make" class="form-label">Make:</label>
+                <input type="text" name="make" id="make" value="@Context.Request.Query["make"]" class="form-control" placeholder="Search by Make">
+            </div>
 
-        <label for="model">Model:</label>
-        <input type="text" name="model" id="model" value="@Context.Request.Query["model"]" placeholder="Search by Model" />
+            <!-- Search by Model -->
+            <div class="col-lg-3 col-md-6">
+                <label for="model" class="form-label">Model:</label>
+                <input type="text" name="model" id="model" value="@Context.Request.Query["model"]" class="form-control" placeholder="Search by Model">
+            </div>
 
-        <label for="minPrice">Min Price:</label>
-        <input type="number" name="minPrice" id="minPrice" value="@Context.Request.Query["minPrice"]" placeholder="Search by min Price" />
+            <!-- Search by Min Price -->
+            <div class="col-lg-3 col-md-6">
+                <label for="minPrice" class="form-label">Min Price:</label>
+                <input type="number" name="minPrice" id="minPrice" value="@Context.Request.Query["minPrice"]" class="form-control" placeholder="Min Price">
+            </div>
 
-        <label for="maxPrice">Max Price:</label>
-        <input type="number" name="maxPrice" id="maxPrice" value="@Context.Request.Query["maxPrice"]" placeholder="Search by max Price" />
+            <!-- Search by Max Price -->
+            <div class="col-lg-3 col-md-6">
+                <label for="maxPrice" class="form-label">Max Price:</label>
+                <input type="number" name="maxPrice" id="maxPrice" value="@Context.Request.Query["maxPrice"]" class="form-control" placeholder="Max Price">
+            </div>
 
-        <button type="submit" class="search-button">Search</button>
+            <!-- Search Button -->
+            <div class="col-12 text-end mt-3">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
     </form>
 </div>
 
-<div>
-    @foreach (var car in Model)
-    {
-        <div>
-            <h2>@car.Make @car.Model</h2>
-            <p>Price per Day: @car.PricePerDay</p>
-            <p>@(car.IsAvailable ? "Available" : "Not Available")</p>
-            <a href="@Url.Action("Details", "Car", new { id = car.CarId})">Car Details</a>
-        </div>
-    }
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var car in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="~/images/@car.ImageUrl" class="card-img-top" alt="@car.Model" style="height: 200px; object-fit: cover;">
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@car.Make @car.Model</h5>
+                        <p class="card-text">Price per Day: <strong>$@car.PricePerDay</strong></p>
+                        <p class="card-text">
+                            @if (car.IsAvailable)
+                            {
+                                <span class="badge bg-success">Available</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Not Available</span>
+                            }
+                        </p>
+                    </div>
+
+                    <div class="card-footer bg-dark text-center mt-auto">
+                        <a href="@Url.Action("Details", "Car", new { id = car.CarId })" class="btn bg-white">Car Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+
