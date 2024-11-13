@@ -4,30 +4,56 @@
     ViewData["Title"] = $"{Model.Make} {Model.Model} Details";
 }
 
-<h1>@Model.Make @Model.Model</h1>
+<div class="container mt-4">
+    <div class="card mb-4 shadow">
+        <div class="row g-0">
+            <div class="col-md-6">
+                <img src="~/images/@Model.ImageUrl" class="img-fluid rounded-start" alt="@Model.Model" style="height: 100%; object-fit: cover;">
+            </div>
 
-<div>
-    <p><strong>Price per Day:</strong> @Model.PricePerDay</p>
-    <p><strong>Availability:</strong> @(Model.IsAvailable ? "Available" : "Currently Unavailable")</p>
+            <div class="col-md-6">
+                <div class="card-body d-flex flex-column">
+                    <h1 class="card-title">@Model.Make @Model.Model</h1>
 
-    <h3>Specificatios</h3>
-    <ul>
-        <li><strong>Make:</strong> @Model.Make</li>
-        <li><strong>Model:</strong> @Model.Model</li>
-        <li><strong>Year:</strong> @Model.Year</li>
-        <li><strong>Fuel Type:</strong> @Model.FuelType</li>
-        <li><strong>Seats:</strong> @Model.Seats</li>
-    </ul>
+                    <p class="card-text"><strong>Price per Day:</strong> $@Model.PricePerDay</p>
+                    <p class="card-text">
+                        <strong>Availability:</strong>
+                        @if (Model.IsAvailable)
+                        {
+                            <span class="badge bg-success">Available</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Currently Unavailable</span>
+                        }
+                    </p>
 
-    @if (Model.IsAvailable)
-    {
-        <form asp-action="Book" asp-controller="Booking" method="post">
-            <input type="hidden" name="CarId" value="" />
-            <button type="submit" class="btn btn-primary">Book This Car</button>
-        </form>
-    }
-    else
-    {
-        <p>This car is currently unavailable for booking.</p>
-    }
+                    <hr />
+
+                    <h3>Specifications</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Make:</strong> @Model.Make</li>
+                        <li class="list-group-item"><strong>Model:</strong> @Model.Model</li>
+                        <li class="list-group-item"><strong>Year:</strong> @Model.Year</li>
+                        <li class="list-group-item"><strong>Fuel Type:</strong> @Model.FuelType</li>
+                        <li class="list-group-item"><strong>Seats:</strong> @Model.Seats</li>
+                    </ul>
+
+                    <div class="mt-4">
+                        @if (Model.IsAvailable)
+                        {
+                            <form asp-action="Book" asp-controller="Booking" method="post">
+                                <input type="hidden" name="CarId" value="@Model.CarId" />
+                                <button type="submit" class="btn btn-primary">Book This Car</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <p class="text-muted">This car is currently unavailable for booking.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
