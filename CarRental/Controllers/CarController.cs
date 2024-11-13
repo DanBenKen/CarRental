@@ -63,6 +63,7 @@ namespace CarRental.Controllers
                 PricePerDay = 225.5m,
                 IsAvailable = true,
                 Seats = 5,
+                FuelType = "Petrol",
                 ImageUrl = "lancerEvoVI.jpg"
             };
 
@@ -75,6 +76,7 @@ namespace CarRental.Controllers
                 PricePerDay = 224.5m,
                 IsAvailable = false,
                 Seats = 5,
+                FuelType = "Petrol",
                 ImageUrl = "ImprezaWRXSti.jpg"
             };
 
@@ -87,6 +89,7 @@ namespace CarRental.Controllers
                 PricePerDay = 300.0m,
                 IsAvailable = true,
                 Seats = 4,
+                FuelType = "Petrol",
                 ImageUrl = "M3E46.jpg"
             };
 
@@ -99,6 +102,7 @@ namespace CarRental.Controllers
                 PricePerDay = 500.0m,
                 IsAvailable = true,
                 Seats = 5,
+                FuelType = "Petrol",
                 ImageUrl = "RS6Avant.jpg"
             };
 
@@ -111,6 +115,7 @@ namespace CarRental.Controllers
                 PricePerDay = 275.0m,
                 IsAvailable = false,
                 Seats = 2,
+                FuelType = "Petrol",
                 ImageUrl = "SupraMK4.jpg"
             };
 
@@ -123,8 +128,8 @@ namespace CarRental.Controllers
                 PricePerDay = 350.0m,
                 IsAvailable = true,
                 Seats = 4,
+                FuelType = "Petrol",
                 ImageUrl = "MustangGT.jpg"
-
             };
 
             cars.Add(lancerEvo6);
