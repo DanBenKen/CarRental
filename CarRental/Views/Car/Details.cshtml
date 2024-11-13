@@ -1,0 +1,33 @@
+﻿@model CarRental.Models.Car
+
+@{
+    ViewData["Title"] = $"{Model.Make} {Model.Model} Details";
+}
+
+<h1>@Model.Make @Model.Model</h1>
+
+<div>
+    <p><strong>Price per Day:</strong> @Model.PricePerDay</p>
+    <p><strong>Availability:</strong> @(Model.IsAvailable ? "Available" : "Currently Unavailable")</p>
+
+    <h3>Specificatios</h3>
+    <ul>
+        <li><strong>Make:</strong> @Model.Make</li>
+        <li><strong>Model:</strong> @Model.Model</li>
+        <li><strong>Year:</strong> @Model.Year</li>
+        <li><strong>Fuel Type:</strong> @Model.FuelType</li>
+        <li><strong>Seats:</strong> @Model.Seats</li>
+    </ul>
+
+    @if (Model.IsAvailable)
+    {
+        <form asp-action="Book" asp-controller="Booking" method="post">
+            <input type="hidden" name="CarId" value="" />
+            <button type="submit" class="btn btn-primary">Book This Car</button>
+        </form>
+    }
+    else
+    {
+        <p>This car is currently unavailable for booking.</p>
+    }
+</div>

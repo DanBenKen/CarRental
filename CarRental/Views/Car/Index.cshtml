@@ -1,0 +1,31 @@
+﻿@model IEnumerable<CarRental.Models.Car>
+
+<div>
+    <form asp-action="Index" method="get">
+        <label for="make">Make:</label>
+        <input type="text" name="make" id="make" value="@Context.Request.Query["make"]" placeholder="Search by Make" />
+
+        <label for="model">Model:</label>
+        <input type="text" name="model" id="model" value="@Context.Request.Query["model"]" placeholder="Search by Model" />
+
+        <label for="minPrice">Min Price:</label>
+        <input type="number" name="minPrice" id="minPrice" value="@Context.Request.Query["minPrice"]" placeholder="Search by min Price" />
+
+        <label for="maxPrice">Max Price:</label>
+        <input type="number" name="maxPrice" id="maxPrice" value="@Context.Request.Query["maxPrice"]" placeholder="Search by max Price" />
+
+        <button type="submit" class="search-button">Search</button>
+    </form>
+</div>
+
+<div>
+    @foreach (var car in Model)
+    {
+        <div>
+            <h2>@car.Make @car.Model</h2>
+            <p>Price per Day: @car.PricePerDay</p>
+            <p>@(car.IsAvailable ? "Available" : "Not Available")</p>
+            <a href="@Url.Action("Details", "Car", new { id = car.CarId})">Car Details</a>
+        </div>
+    }
+</div>
