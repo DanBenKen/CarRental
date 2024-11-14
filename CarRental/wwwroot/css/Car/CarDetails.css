@@ -1,0 +1,9 @@
+﻿.card-custom {
+    max-width: 800px;
+}
+
+.img-custom {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

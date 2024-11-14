@@ -3,31 +3,26 @@
 <div class="container mt-4">
     <form asp-action="Index" method="get" class="mb-4">
         <div class="row g-3 align-items-center">
-            <!-- Search by Make -->
             <div class="col-lg-3 col-md-6">
                 <label for="make" class="form-label">Make:</label>
                 <input type="text" name="make" id="make" value="@Context.Request.Query["make"]" class="form-control" placeholder="Search by Make">
             </div>
 
-            <!-- Search by Model -->
             <div class="col-lg-3 col-md-6">
                 <label for="model" class="form-label">Model:</label>
                 <input type="text" name="model" id="model" value="@Context.Request.Query["model"]" class="form-control" placeholder="Search by Model">
             </div>
 
-            <!-- Search by Min Price -->
             <div class="col-lg-3 col-md-6">
                 <label for="minPrice" class="form-label">Min Price:</label>
                 <input type="number" name="minPrice" id="minPrice" value="@Context.Request.Query["minPrice"]" class="form-control" placeholder="Min Price">
             </div>
 
-            <!-- Search by Max Price -->
             <div class="col-lg-3 col-md-6">
                 <label for="maxPrice" class="form-label">Max Price:</label>
                 <input type="number" name="maxPrice" id="maxPrice" value="@Context.Request.Query["maxPrice"]" class="form-control" placeholder="Max Price">
             </div>
 
-            <!-- Search Button -->
             <div class="col-12 text-end mt-3">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
@@ -41,7 +36,7 @@
         {
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <img src="~/images/@car.ImageUrl" class="card-img-top" alt="@car.Model" style="height: 200px; object-fit: cover;">
+                    <img src="~/images/@car.ImageUrl" class="card-img-top img-custom" alt="@car.Model">
 
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@car.Make @car.Model</h5>
@@ -67,4 +62,6 @@
     </div>
 </div>
 
-
+@section Scripts {
+    <link rel="stylesheet" href="~/css/Car/CarIndex.css" />
+}

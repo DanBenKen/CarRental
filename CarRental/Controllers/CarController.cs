@@ -77,7 +77,7 @@ namespace CarRental.Controllers
                 IsAvailable = false,
                 Seats = 5,
                 FuelType = "Petrol",
-                ImageUrl = "ImprezaWRXSti.jpg"
+                ImageUrl = "SubaruImprezaWRXSti.jpg"
             };
 
             Car bmwM3 = new Car()
@@ -90,7 +90,7 @@ namespace CarRental.Controllers
                 IsAvailable = true,
                 Seats = 4,
                 FuelType = "Petrol",
-                ImageUrl = "M3E46.jpg"
+                ImageUrl = "BMWM3E46.jpg"
             };
 
             Car audiRs6 = new Car()
@@ -103,7 +103,7 @@ namespace CarRental.Controllers
                 IsAvailable = true,
                 Seats = 5,
                 FuelType = "Petrol",
-                ImageUrl = "RS6Avant.jpg"
+                ImageUrl = "AudiRS6Avant.jpg"
             };
 
             Car toyotaSupra = new Car()
@@ -116,7 +116,7 @@ namespace CarRental.Controllers
                 IsAvailable = false,
                 Seats = 2,
                 FuelType = "Petrol",
-                ImageUrl = "SupraMK4.jpg"
+                ImageUrl = "ToyotaSupraMK4.jpg"
             };
 
             Car fordMustang = new Car()
@@ -129,7 +129,7 @@ namespace CarRental.Controllers
                 IsAvailable = true,
                 Seats = 4,
                 FuelType = "Petrol",
-                ImageUrl = "MustangGT.jpg"
+                ImageUrl = "FordMustangGT.jpg"
             };
 
             cars.Add(lancerEvo6);

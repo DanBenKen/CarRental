@@ -4,11 +4,11 @@
     ViewData["Title"] = $"{Model.Make} {Model.Model} Details";
 }
 
-<div class="container mt-4">
-    <div class="card mb-4 shadow">
+<div class="container d-flex justify-content-center mt-4">
+    <div class="card card-custom mb-4 shadow">
         <div class="row g-0">
             <div class="col-md-6">
-                <img src="~/images/@Model.ImageUrl" class="img-fluid rounded-start" alt="@Model.Model" style="height: 100%; object-fit: cover;">
+                <img src="~/images/@Model.ImageUrl" class="img-fluid img-custom" alt="@Model.Model">
             </div>
 
             <div class="col-md-6">
@@ -57,3 +57,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <link rel="stylesheet" href="~/css/Car/CarDetails.css" />
+}
