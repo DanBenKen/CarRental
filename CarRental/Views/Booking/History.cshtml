@@ -1,0 +1,45 @@
+﻿@model List<CarRental.Models.ViewModels.Booking.HistoryViewModel>
+
+@{
+    ViewData["Title"] = "Booking History";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Car Make</th>
+            <th>Car Model</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.Make</td>
+                <td>@booking.Model</td>
+                <td>@booking.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@booking.EndDate.ToString("yyyy-MM-dd")</td>
+                <td>@booking.TotalPrice.ToString("C")</td>
+                @if (booking.IsAvailable)
+                {
+                    <td>Returned</td>
+                }
+                else
+                {
+                    <td>
+                        <form asp-action="Return" asp-controller="Booking" method="get">
+                            <input type="hidden" name="bookingId" value="@booking.BookingId" />
+                            <button type="submit" class="btn btn-primary">Return</button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

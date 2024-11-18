@@ -40,6 +40,7 @@ namespace CarRental.Controllers
             return View(cars);
         }
 
+        [HttpGet]
         public IActionResult Details(int id)
         {
             var cars = InitCars();
@@ -52,95 +53,15 @@ namespace CarRental.Controllers
 
         private IEnumerable<Car> InitCars()
         {
-            var cars = new List<Car>();
-
-            Car lancerEvo6 = new Car()
+            return new List<Car>
             {
-                CarId = 1,
-                Make = "Mitsubishi",
-                Model = "Lancer Evo VI",
-                Year = 1999,
-                PricePerDay = 225.5m,
-                IsAvailable = true,
-                Seats = 5,
-                FuelType = "Petrol",
-                ImageUrl = "lancerEvoVI.jpg"
+                new Car { CarId = 1, Make = "Mitsubishi", Model = "Lancer Evo VI", Year = 1999, PricePerDay = 225.5m, IsAvailable = true, Seats = 5, FuelType = "Petrol", ImageUrl = "lancerEvoVI.jpg" },
+                new Car { CarId = 2, Make = "Subaru", Model = "Impreza WRX Sti", Year = 2006, PricePerDay = 224.5m, IsAvailable = false, Seats = 5, FuelType = "Petrol", ImageUrl = "SubaruImprezaWRXSti.jpg" },
+                new Car { CarId = 3, Make = "BMW", Model = "M3 E46", Year = 2004, PricePerDay = 300.0m, IsAvailable = true, Seats = 4, FuelType = "Petrol", ImageUrl = "BMWM3E46.jpg" },
+                new Car { CarId = 4, Make = "Audi", Model = "RS6 Avant", Year = 2020, PricePerDay = 500.0m, IsAvailable = true, Seats = 5, FuelType = "Petrol", ImageUrl = "AudiRS6Avant.jpg" },
+                new Car { CarId = 5, Make = "Toyota", Model = "Supra MK4", Year = 1998, PricePerDay = 275.0m, IsAvailable = false, Seats = 2, FuelType = "Petrol", ImageUrl = "ToyotaSupraMK4.jpg" },
+                new Car { CarId = 6, Make = "Ford", Model = "Mustang GT", Year = 2018, PricePerDay = 350.0m, IsAvailable = false, Seats = 4, FuelType = "Petrol", ImageUrl = "FordMustangGT.jpg" }
             };
-
-            Car imprezaSti = new Car()
-            {
-                CarId = 2,
-                Make = "Subaru",
-                Model = "Impreza WRX Sti",
-                Year = 2006,
-                PricePerDay = 224.5m,
-                IsAvailable = false,
-                Seats = 5,
-                FuelType = "Petrol",
-                ImageUrl = "SubaruImprezaWRXSti.jpg"
-            };
-
-            Car bmwM3 = new Car()
-            {
-                CarId = 3,
-                Make = "BMW",
-                Model = "M3 E46",
-                Year = 2004,
-                PricePerDay = 300.0m,
-                IsAvailable = true,
-                Seats = 4,
-                FuelType = "Petrol",
-                ImageUrl = "BMWM3E46.jpg"
-            };
-
-            Car audiRs6 = new Car()
-            {
-                CarId = 4,
-                Make = "Audi",
-                Model = "RS6 Avant",
-                Year = 2020,
-                PricePerDay = 500.0m,
-                IsAvailable = true,
-                Seats = 5,
-                FuelType = "Petrol",
-                ImageUrl = "AudiRS6Avant.jpg"
-            };
-
-            Car toyotaSupra = new Car()
-            {
-                CarId = 5,
-                Make = "Toyota",
-                Model = "Supra MK4",
-                Year = 1998,
-                PricePerDay = 275.0m,
-                IsAvailable = false,
-                Seats = 2,
-                FuelType = "Petrol",
-                ImageUrl = "ToyotaSupraMK4.jpg"
-            };
-
-            Car fordMustang = new Car()
-            {
-                CarId = 6,
-                Make = "Ford",
-                Model = "Mustang GT",
-                Year = 2018,
-                PricePerDay = 350.0m,
-                IsAvailable = true,
-                Seats = 4,
-                FuelType = "Petrol",
-                ImageUrl = "FordMustangGT.jpg"
-            };
-
-            cars.Add(lancerEvo6);
-            cars.Add(imprezaSti);
-            cars.Add(bmwM3);
-            cars.Add(audiRs6);
-            cars.Add(toyotaSupra);
-            cars.Add(fordMustang);
-
-            return cars;
         }
-
     }
 }

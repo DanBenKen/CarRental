@@ -1,0 +1,42 @@
+﻿@model CarRental.Models.ViewModels.Booking.ReturnViewModel
+
+@{
+    ViewData["Title"] = $"Return {Model.Make} {Model.Model}";
+}
+
+<div class="container d-flex justify-content-center mt-4">
+    <div class="card card-custom mb-4 shadow">
+        <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-body d-flex flex-column">
+                    <h1 class="card-title">@Model.Make @Model.Model</h1>
+
+                    <p class="card-text"><strong>Price per Day:</strong> @Model.PricePerDay.ToString("C")</p>
+
+                    <p class="card-text">
+                        <strong>Rental Period:</strong>
+                        @Model.StartDate.ToString("yyyy-MM-dd") - @Model.EndDate.ToString("yyyy-MM-dd")
+                    </p>
+
+                    <hr />
+
+                    <h3>Booking Details</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Start Date:</strong> @Model.StartDate.ToString("yyyy-MM-dd")</li>
+                        <li class="list-group-item"><strong>End Date:</strong> @Model.EndDate.ToString("yyyy-MM-dd")</li>
+                        <li class="list-group-item"><strong>Booking ID:</strong> @Model.BookingId</li>
+                    </ul>
+
+                    <div class="mt-4">
+                        <form asp-action="Return" method="post">
+                            <input type="hidden" name="Make" value="@Model.Make" />
+                            <input type="hidden" name="Model" value="@Model.Model" />
+                            <input type="hidden" name="BookingId" value="@Model.BookingId" />
+                            <button type="submit" class="btn btn-primary">Return Car</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

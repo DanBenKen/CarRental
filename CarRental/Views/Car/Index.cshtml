@@ -40,7 +40,7 @@
 
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@car.Make @car.Model</h5>
-                        <p class="card-text">Price per Day: <strong>$@car.PricePerDay</strong></p>
+                        <p class="card-text">Price per Day: <strong>@car.PricePerDay.ToString("C")</strong></p>
                         <p class="card-text">
                             @if (car.IsAvailable)
                             {
