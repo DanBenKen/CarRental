@@ -61,10 +61,9 @@ namespace CarRental.Controllers
                 _bookings.Add(newBooking);
 
                 var car = _cars.FirstOrDefault(c => c.CarId == bookingModel.CarId);
-                if (car != null)
-                {
-                    car.IsAvailable = false;
-                }
+                if (car == null) return NotFound();
+
+                car.IsAvailable = false;
 
                 return RedirectToAction("History");
             }
@@ -100,11 +99,9 @@ namespace CarRental.Controllers
         public IActionResult Return(int bookingId)
         {
             var booking = _bookings.FirstOrDefault(b => b.BookingId == bookingId);
-
             if (booking == null) return NotFound();
 
             var car = _cars.FirstOrDefault(c => c.CarId == booking.CarId);
-
             if (car == null) return NotFound();
 
             var returnViewModel = new ReturnViewModel
@@ -127,18 +124,10 @@ namespace CarRental.Controllers
             if (ModelState.IsValid)
             {
                 var booking = _bookings.FirstOrDefault(b => b.BookingId == bookingModel.BookingId);
-
-                if (booking == null)
-                {
-                    return NotFound();
-                }
+                if (booking == null) return NotFound();
 
                 var car = _cars.FirstOrDefault(c => c.CarId == booking.CarId);
-
-                if (car == null)
-                {
-                    return NotFound();
-                }
+                if (car == null) return NotFound();
 
                 car.IsAvailable = true;
 
