@@ -1,7 +1,11 @@
+using CarRental.Utils;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<Garage>();
 
 var app = builder.Build();
 

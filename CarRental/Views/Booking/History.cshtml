@@ -4,6 +4,22 @@
     ViewData["Title"] = "Booking History";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <h2>@ViewData["Title"]</h2>
 
 <table class="table">
@@ -26,20 +42,28 @@
                 <td>@booking.StartDate.ToString("yyyy-MM-dd")</td>
                 <td>@booking.EndDate.ToString("yyyy-MM-dd")</td>
                 <td>@booking.TotalPrice.ToString("C")</td>
-                @if (booking.IsAvailable)
-                {
-                    <td>Returned</td>
-                }
-                else
-                {
-                    <td>
+
+                <td>
+                    @if (booking.EndDate < DateTime.Now)
+                    {
+                        <p>Returned</p>
+                    }
+                    else
+                    {
                         <form asp-action="Return" asp-controller="Booking" method="get">
                             <input type="hidden" name="BookingId" value="@booking.BookingId" />
                             <button type="submit" class="btn btn-primary">Return</button>
                         </form>
-                    </td>
-                }
+                    }
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    setTimeout(function () {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => alert.classList.remove('show'));
+    }, 3000);
+</script>

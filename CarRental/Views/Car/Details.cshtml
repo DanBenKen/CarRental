@@ -16,17 +16,6 @@
                     <h1 class="card-title">@Model.Make @Model.Model</h1>
 
                     <p class="card-text"><strong>Price per Day:</strong> @Model.PricePerDay.ToString("C")</p>
-                    <p class="card-text">
-                        <strong>Availability:</strong>
-                        @if (Model.IsAvailable)
-                        {
-                            <span class="badge bg-success">Available</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-danger">Currently Unavailable</span>
-                        }
-                    </p>
 
                     <hr />
 
@@ -40,17 +29,10 @@
                     </ul>
 
                     <div class="mt-4">
-                        @if (Model.IsAvailable)
-                        {
-                            <form asp-action="Create" asp-controller="Booking" method="get">
-                                <input type="hidden" name="CarId" value="@Model.CarId" />
-                                <button type="submit" class="btn btn-primary">Book This Car</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <p class="text-muted">This car is currently unavailable for booking.</p>
-                        }
+                        <form asp-action="Create" asp-controller="Booking" method="get">
+                            <input type="hidden" name="CarId" value="@Model.CarId" />
+                            <button type="submit" class="btn btn-primary">Book This Car</button>
+                        </form>
                     </div>
                 </div>
             </div>

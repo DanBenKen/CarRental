@@ -1,0 +1,9 @@
+﻿.custom-card {
+    width: 25rem;
+}
+
+.validation-summary > ul {
+    list-style-type: none !important;
+    padding-left: 0 !important;
+    margin: 0;
+}

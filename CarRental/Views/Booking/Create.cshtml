@@ -9,32 +9,37 @@
 <div class="container d-flex justify-content-center mt-4">
     <form asp-action="Create" method="post">
         <input name="CarId" value="@Model.CarId" hidden />
+        <input name="PricePerDay" value="@Model.PricePerDay" hidden />
 
-        <div class="card p-4 gap-3">
+        <div class="card custom-card p-4 gap-3 shadow">
             <div class="form-group">
-                <label for="make">Car Make</label>
-                <input type="text" class="form-control" id="make" name="Make" value="@Model.Make" readonly />
+                <label for="make" class="fw-bold">Car Make</label>
+                <input type="text" class="form-control-plaintext" id="make" name="Make" value="@Model.Make" readonly />
             </div>
 
             <div class="form-group">
-                <label for="model">Car Model</label>
-                <input type="text" class="form-control" id="model" name="Model" value="@Model.Model" readonly />
+                <label for="model" class="fw-bold">Car Model</label>
+                <input type="text" class="form-control-plaintext" id="model" name="Model" value="@Model.Model" readonly />
             </div>
 
             <div class="form-group">
-                <label for="startDate">Start Date</label>
+                <label for="startDate" class="fw-bold">Start Date</label>
                 <input type="date" class="form-control" id="startDate" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" required />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label for="endDate">End Date</label>
+                <label for="endDate" class="fw-bold">End Date</label>
                 <input type="date" class="form-control" id="endDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" required />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label for="totalPrice">Total Price</label>
-                <input type="text" class="form-control" id="totalPrice" name="PricePerDay" value="@Model.PricePerDay" readonly />
+                <label for="totalPrice" class="fw-bold">Total Price</label>
+                <input type="text" class="form-control-plaintext" id="totalPrice" name="TotalPrice" value="@Model.PricePerDay." readonly />
             </div>
+
+            <span asp-validation-for="CarId" class="text-danger"></span>
 
             <div class="d-flex">
                 <button type="submit" class="btn btn-primary">Create Booking</button>
@@ -42,3 +47,8 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <link rel="stylesheet" href="~/css/booking/BookingCreate.css" />
+    <script src="~/js/booking/bookingCreate.js"></script>
+}
