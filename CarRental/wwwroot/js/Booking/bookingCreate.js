@@ -2,7 +2,7 @@
     const startDateInput = document.getElementById("startDate");
     const endDateInput = document.getElementById("endDate");
     const totalPriceInput = document.getElementById("totalPrice");
-    const pricePerDay = parseFloat(document.getElementById("totalPrice").value);
+    const pricePerDay = parseFloat(document.getElementById("pricePerDay").value);
 
     function calculateTotalPrice() {
         const startDate = new Date(startDateInput.value);

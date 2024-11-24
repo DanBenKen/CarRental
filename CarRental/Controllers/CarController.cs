@@ -1,5 +1,4 @@
-﻿using AspNetCoreGeneratedDocument;
-using CarRental.Models;
+﻿using CarRental.Models;
 using CarRental.Utils;
 using Microsoft.AspNetCore.Mvc;
 

@@ -31,25 +31,7 @@
 </div>
 
 <div class="container mt-4">
-    <div class="row">
-        @foreach (var car in Model)
-        {
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img src="~/images/@car.ImageUrl" class="card-img-top img-custom" alt="@car.Model">
-
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">@car.Make @car.Model</h5>
-                        <p class="card-text">Price per Day: <strong>@car.PricePerDay.ToString("C")</strong></p>
-                    </div>
-
-                    <div class="card-footer bg-dark text-center mt-auto">
-                        <a href="@Url.Action("Details", "Car", new { id = car.CarId })" class="btn bg-white">Car Details</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+    @Html.Partial("_CarCard", Model);
 </div>
 
 @section Scripts {

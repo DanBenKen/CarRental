@@ -30,13 +30,13 @@ namespace CarRental.Utils
                 new Car { CarId = 3, Make = "BMW", Model = "M3 E46", Year = 2004, PricePerDay = 300.0m, Seats = 4, FuelType = "Petrol", Status = "Available", ImageUrl = "BMWM3E46.jpg" },
                 new Car { CarId = 4, Make = "Audi", Model = "RS6 Avant", Year = 2020, PricePerDay = 500.0m, Seats = 5, FuelType = "Petrol", Status = "Rented", ImageUrl = "AudiRS6Avant.jpg" },
                 new Car { CarId = 5, Make = "Toyota", Model = "Supra MK4", Year = 1998, PricePerDay = 275.0m, Seats = 2, FuelType = "Petrol", Status = "Available", ImageUrl = "ToyotaSupraMK4.jpg" },
-                new Car { CarId = 6, Make = "Ford", Model = "Mustang GT", Year = 2018, PricePerDay = 350.0m, Seats = 4, FuelType = "Petrol", Status = "Rented", ImageUrl = "FordMustangGT.jpg" }
+                new Car { CarId = 6, Make = "Ford", Model = "Mustang GT", Year = 2018, PricePerDay = 350.0m, Seats = 4, FuelType = "Petrol", Status = "Rented", ImageUrl = "FordMustangGT.jpg" },
+                new Car { CarId = 7, Make = "Chevrolet", Model = "Corvette C7", Year = 2017, PricePerDay = 400.0m, Seats = 2, FuelType = "Petrol", Status = "Available", ImageUrl = "" }
             };
         }
 
         public decimal CalculateTotalPrice(DateTime startDate, DateTime endDate, decimal pricePerDay)
         {
-
             int rentalDays = (endDate - startDate).Days;
             if (rentalDays == 0)
             {

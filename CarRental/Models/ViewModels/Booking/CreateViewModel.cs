@@ -17,8 +17,9 @@ namespace CarRental.Models.ViewModels.Booking
 
         public string Model { get; set; }
 
-        [Range(1, double.MaxValue, ErrorMessage = "Total price must be greater then 0.")]
         public decimal PricePerDay { get; set; }
+
+        public decimal TotalPrice { get; set; }
 
         [Required(ErrorMessage = "Start date is required.")]
         [DataType(DataType.Date)]
@@ -27,6 +28,7 @@ namespace CarRental.Models.ViewModels.Booking
         public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "End date is required.")]
+        [DataType(DataType.Date)]
         [Display(Name = "End Date")]
         [DateGreaterThan(nameof(StartDate), ErrorMessage = "End date must be after the start date.")]
         public DateTime EndDate { get; set; }

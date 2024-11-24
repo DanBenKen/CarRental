@@ -1,0 +1,40 @@
+﻿@model CarRental.Models.ViewModels.Booking.ConfirmationViewModel
+
+@{
+    ViewData["Title"] = "Booking Confirmation";
+}
+
+<div class="container d-flex justify-content-center mt-4">
+    <div class="card card-custom mb-4 shadow">
+        <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-body d-flex flex-column">
+                    <h1 class="card-title">Booking Confirmed</h1>
+                    <hr />
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Booking ID:</strong> @Model.BookingId
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Car:</strong> @Model.Make @Model.Model
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Start Date:</strong> @Model.StartDate.ToString("dd MMM yyyy")
+                        </li>
+                        <li class="list-group-item">
+                            <strong>End Date:</strong> @Model.EndDate.ToString("dd MMM yyyy")
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Total Price:</strong> @Model.TotalPrice.ToString("C")
+                        </li>
+                    </ul>
+
+                    <div class="mt-4">
+                        <a href="@Url.Action("History", "Booking")" class="btn btn-secondary">View Your Bookings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
