@@ -12,6 +12,7 @@
         <input name="PricePerDay" id="pricePerDay" value="@Model.PricePerDay" hidden />
 
         <div class="card custom-card p-4 gap-3 shadow">
+            <span asp-validation-for="CarId" class="text-danger"></span>
             <div class="form-group">
                 <label for="make" class="fw-bold">Car Make</label>
                 <input type="text" class="form-control-plaintext" id="make" name="Make" value="@Model.Make" readonly />

@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Utils
 {
-    public class FutureDateAttribute : ValidationAttribute
+    public class EnsureFutureDateAttribute : ValidationAttribute
     {
         protected override ValidationResult? IsValid(object value, ValidationContext validationContext)
         {
@@ -11,7 +10,7 @@ namespace CarRental.Utils
             {
                 if (date < DateTime.Today)
                 {
-                    return new ValidationResult(ErrorMessage);
+                    return new ValidationResult("Start date must be in present or future.");
                 }
 
                 return ValidationResult.Success;

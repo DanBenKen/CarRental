@@ -8,16 +8,25 @@
         const startDate = new Date(startDateInput.value);
         const endDate = new Date(endDateInput.value);
 
-        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && startDate <= endDate) {
+        if (Date(startDate.getTime()) && Date(endDate.getTime()) && startDate <= endDate) {
             const timeDifference = endDate - startDate;
             const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
             const totalPrice = days * pricePerDay;
 
             totalPriceInput.value = totalPrice.toFixed(2);
-        } else {
+        }
+        else {
             totalPriceInput.value = "Invalid dates";
         }
     }
+
+    function setDefaultTotalPrice() {
+        const defaultDays = 1;
+        const totalPrice = defaultDays * pricePerDay;
+        totalPriceInput.value = totalPrice.toFixed(2);
+    }
+
+    setDefaultTotalPrice();
 
     startDateInput.addEventListener("change", calculateTotalPrice);
     endDateInput.addEventListener("change", calculateTotalPrice);

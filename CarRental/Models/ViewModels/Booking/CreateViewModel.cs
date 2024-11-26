@@ -10,7 +10,7 @@ namespace CarRental.Models.ViewModels.Booking
         public int UserId { get; set; }
 
         [Required(ErrorMessage = "CarId is required.")]
-        [CarAvailable(ErrorMessage = "The vehicle is already reserved for the selected time period.")]
+        [CarAvailable]
         public int CarId { get; set; }
 
         public string Make { get; set; }
@@ -24,13 +24,13 @@ namespace CarRental.Models.ViewModels.Booking
         [Required(ErrorMessage = "Start date is required.")]
         [DataType(DataType.Date)]
         [Display(Name = "Start Date")]
-        [FutureDate(ErrorMessage = "Start date must be in present or future.")]
+        [EnsureFutureDate]
         public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "End date is required.")]
         [DataType(DataType.Date)]
         [Display(Name = "End Date")]
-        [DateGreaterThan(nameof(StartDate), ErrorMessage = "End date must be after the start date.")]
+        [DateGreaterThan(nameof(StartDate))]
         public DateTime EndDate { get; set; }
     }
 }

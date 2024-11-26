@@ -30,7 +30,7 @@ namespace CarRental.Utils
 
             if (currentValue.Value <= comparisonValue.Value)
             {
-                return new ValidationResult(ErrorMessage);
+                return new ValidationResult("End date must be after the start date.");
             }
 
             return ValidationResult.Success;
