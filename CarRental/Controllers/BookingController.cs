@@ -66,7 +66,6 @@ namespace CarRental.Controllers
             {
                 BookingId = _bookings.Any() ? _bookings.Max(b => b.BookingId) + 1 : 1,
                 CarId = bookingModel.CarId,
-                PricePerDay = bookingModel.PricePerDay,
                 UserId = userId,
                 StartDate = bookingModel.StartDate,
                 EndDate = bookingModel.EndDate,
