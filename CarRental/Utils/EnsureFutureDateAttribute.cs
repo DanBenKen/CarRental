@@ -8,10 +8,7 @@ namespace CarRental.Utils
         {
             if (value is DateTime date)
             {
-                if (date < DateTime.Today)
-                {
-                    return new ValidationResult("Start date must be in present or future.");
-                }
+                if (date < DateTime.Today) return new ValidationResult("Start date must be in present or future.");
 
                 return ValidationResult.Success;
             }

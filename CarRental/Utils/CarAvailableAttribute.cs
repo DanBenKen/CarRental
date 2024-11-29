@@ -24,10 +24,7 @@ namespace CarRental.Models.Validation
                                                                ((b.StartDate <= bookingModel.EndDate && b.StartDate >= bookingModel.StartDate) ||
                                                                 (b.EndDate >= bookingModel.StartDate && b.EndDate <= bookingModel.EndDate)));
 
-            if (existingBooking != null)
-            {
-                return new ValidationResult("The vehicle is already reserved for the selected time period.");
-            }
+            if (existingBooking != null) return new ValidationResult("The vehicle is already reserved for the selected time period.");
 
             return ValidationResult.Success;
         }
