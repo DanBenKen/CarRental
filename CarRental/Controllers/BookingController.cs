@@ -56,12 +56,6 @@ namespace CarRental.Controllers
 
             var totalPrice = _garage.CalculateTotalPrice(bookingModel.StartDate, bookingModel.EndDate, bookingModel.PricePerDay);
 
-            if (bookingModel.TotalPrice != totalPrice)
-            {
-                ModelState.AddModelError("TotalPrice", "The total price does not match the calculated value.");
-                return View(bookingModel);
-            }
-
             var newBooking = new Booking
             {
                 BookingId = _bookings.Any() ? _bookings.Max(b => b.BookingId) + 1 : 1,

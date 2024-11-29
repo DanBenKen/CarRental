@@ -19,6 +19,7 @@ namespace CarRental.Models.ViewModels.Booking
 
         public decimal PricePerDay { get; set; }
 
+        [ValidTotalPrice]
         public decimal TotalPrice { get; set; }
 
         [Required(ErrorMessage = "Start date is required.")]
