@@ -37,6 +37,12 @@
 <div class="container mt-4">
     <nav aria-label="Pagination">
         <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1, make = Context.Request.Query["make"], model = Context.Request.Query["model"], minPrice = Context.Request.Query["minPrice"], maxPrice = Context.Request.Query["maxPrice"] })">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
                 <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
@@ -45,6 +51,12 @@
                     </a>
                 </li>
             }
+
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1, make = Context.Request.Query["make"], model = Context.Request.Query["model"], minPrice = Context.Request.Query["minPrice"], maxPrice = Context.Request.Query["maxPrice"] })">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
         </ul>
     </nav>
 </div>

@@ -15,11 +15,11 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(int carId)
+        public async Task<IActionResult> Create(int carId)
         {
             int userId = 1;
 
-            var car = _context.Cars.FirstOrDefault(c => c.CarId == carId);
+            var car = await _context.Cars.FirstOrDefaultAsync(c => c.CarId == carId);
             if (car == null) return NotFound("Car not found.");
 
             var createViewModel = new CreateViewModel
@@ -38,13 +38,13 @@ namespace CarRental.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateViewModel bookingModel)
+        public async Task<IActionResult> Create(CreateViewModel bookingModel)
         {
             if (!ModelState.IsValid) return View(bookingModel);
 
             int userId = 1;
 
-            var car = _context.Cars.FirstOrDefault(c => c.CarId == bookingModel.CarId);
+            var car = await _context.Cars.FirstOrDefaultAsync(c => c.CarId == bookingModel.CarId);
             if (car == null) return NotFound("Car not found.");
 
             var totalPrice = CalculateTotalPrice(bookingModel.StartDate, bookingModel.EndDate, bookingModel.PricePerDay);
@@ -59,7 +59,7 @@ namespace CarRental.Controllers
             };
 
             _context.Bookings.Add(newBooking);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             car.Status = "Rented";
 
@@ -67,7 +67,7 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public IActionResult History(int page = 1, int pageSize = 3)
+        public async Task<IActionResult> History(int page = 1, int pageSize = 6)
         {
             var userId = 1;
 
@@ -81,16 +81,16 @@ namespace CarRental.Controllers
                     Model = b.Car.Model,
                     StartDate = b.StartDate,
                     EndDate = b.EndDate,
-                    TotalPrice = b.TotalPrice
+                    TotalPrice = b.TotalPrice,
+                    Status = b.Status,
                 });
 
+            int totalItems = await userBookingsQuery.CountAsync();
 
-            int totalItems = userBookingsQuery.Count();
-
-            var bookings = userBookingsQuery
+            var bookings = await userBookingsQuery
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
 
             var viewModel = new PaginatedHistoryViewModel
             {
@@ -104,12 +104,12 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public IActionResult Confirmation(int bookingId)
+        public async Task<IActionResult> Confirmation(int bookingId)
         {
-            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingId);
+            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.BookingId == bookingId);
             if (booking == null) return NotFound("Booking not found.");
 
-            var car = _context.Cars.FirstOrDefault(c => c.CarId == booking.CarId);
+            var car = await _context.Cars.FirstOrDefaultAsync(c => c.CarId == booking.CarId);
             if (car == null) return NotFound("Car not found.");
 
             var confirmationViewModel = new ConfirmationViewModel
@@ -126,12 +126,12 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public IActionResult Return(int bookingId)
+        public async Task<IActionResult> Return(int bookingId)
         {
-            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingId);
+            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.BookingId == bookingId);
             if (booking == null) return NotFound("Booking not found.");
 
-            var car = _context.Cars.FirstOrDefault(c => c.CarId == booking.CarId);
+            var car = await _context.Cars.FirstOrDefaultAsync(c => c.CarId == booking.CarId);
             if (car == null) return NotFound("Car not found.");
 
             var returnViewModel = new ReturnViewModel
@@ -148,19 +148,19 @@ namespace CarRental.Controllers
         }
 
         [HttpPost]
-        public IActionResult Return(ReturnViewModel bookingModel)
+        public async Task<IActionResult> Return(ReturnViewModel bookingModel)
         {
             if (!ModelState.IsValid) return View(bookingModel);
 
-            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingModel.BookingId);
+            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.BookingId == bookingModel.BookingId);
             if (booking == null) return NotFound("Booking not found.");
 
-            var car = _context.Cars.FirstOrDefault(c => c.CarId == booking.CarId);
+            var car = await _context.Cars.FirstOrDefaultAsync(c => c.CarId == booking.CarId);
             if (car == null) return NotFound("Car not found.");
 
-            _context.SaveChanges();
+            booking.Status = "Returned";
 
-            car.Status = "Available";
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("History");
         }

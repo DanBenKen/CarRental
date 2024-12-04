@@ -2,6 +2,7 @@
 using CarRental.Models.ViewModels.Car;
 using CarRental.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Controllers
 {
@@ -14,7 +15,7 @@ namespace CarRental.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string make, string model, decimal? minPrice, decimal? maxPrice, int page = 1, int pageSize = 6)
+        public async Task<IActionResult> Index(string make, string model, decimal? minPrice, decimal? maxPrice, int page = 1, int pageSize = 6)
         {
             var carsQuery = _context.Cars.AsQueryable();
 
@@ -38,12 +39,12 @@ namespace CarRental.Controllers
                 carsQuery = carsQuery.Where(c => c.PricePerDay <= maxPrice.Value);
             }
 
-            int totalItems = carsQuery.Count();
+            int totalItems = await carsQuery.CountAsync();
 
-            var cars = carsQuery
+            var cars = await carsQuery
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
 
             var viewModel = new PaginatedIndexViewModel
             {
@@ -56,13 +57,10 @@ namespace CarRental.Controllers
             return View(viewModel);
         }
 
-
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var cars = _context.Cars.AsQueryable();
-
-            var car = cars.SingleOrDefault(c => c.CarId == id);
+            var car = await _context.Cars.SingleOrDefaultAsync(c => c.CarId == id);
             if (car == null) return NotFound();
 
             return View(car);
