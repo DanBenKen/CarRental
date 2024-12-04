@@ -56,12 +56,12 @@ namespace CarRental.Controllers
                 StartDate = bookingModel.StartDate,
                 EndDate = bookingModel.EndDate,
                 TotalPrice = totalPrice,
+                Status = "Rented",
             };
 
             _context.Bookings.Add(newBooking);
             await _context.SaveChangesAsync();
 
-            car.Status = "Rented";
 
             return RedirectToAction("Confirmation", new { bookingId = newBooking.BookingId });
         }

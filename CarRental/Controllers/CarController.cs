@@ -1,6 +1,4 @@
-﻿using CarRental.Models;
-using CarRental.Models.ViewModels.Car;
-using CarRental.Utils;
+﻿using CarRental.Models.ViewModels.Car;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
