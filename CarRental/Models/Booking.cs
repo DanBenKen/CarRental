@@ -8,5 +8,7 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal TotalPrice { get; set; }
+
+        public virtual Car Car { get; set; }
     }
 }

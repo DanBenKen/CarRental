@@ -1,24 +1,17 @@
 ﻿using CarRental.Models.ViewModels.Booking;
 using CarRental.Models;
-using CarRental.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Controllers
 {
     public class BookingController : Controller
     {
-        private readonly Garage _garage;
-        private readonly List<Car> _cars;
-        private readonly List<Booking> _bookings;
+        private readonly CarRentalContext _context;
 
-        public BookingController(Garage garage, IHttpContextAccessor httpContextAccessor)
+        public BookingController(CarRentalContext context)
         {
-            _garage = garage;
-
-            _cars = _garage.GenerateCars()?.ToList();
-
-            _bookings = LoadBookingsFromSession(httpContextAccessor);
+            _context = context;
         }
 
         [HttpGet]
@@ -26,7 +19,7 @@ namespace CarRental.Controllers
         {
             int userId = 1;
 
-            var car = _cars.FirstOrDefault(c => c.CarId == carId);
+            var car = _context.Cars.FirstOrDefault(c => c.CarId == carId);
             if (car == null) return NotFound("Car not found.");
 
             var createViewModel = new CreateViewModel
@@ -51,14 +44,13 @@ namespace CarRental.Controllers
 
             int userId = 1;
 
-            var car = _cars.FirstOrDefault(c => c.CarId == bookingModel.CarId);
+            var car = _context.Cars.FirstOrDefault(c => c.CarId == bookingModel.CarId);
             if (car == null) return NotFound("Car not found.");
 
-            var totalPrice = _garage.CalculateTotalPrice(bookingModel.StartDate, bookingModel.EndDate, bookingModel.PricePerDay);
+            var totalPrice = CalculateTotalPrice(bookingModel.StartDate, bookingModel.EndDate, bookingModel.PricePerDay);
 
             var newBooking = new Booking
             {
-                BookingId = _bookings.Any() ? _bookings.Max(b => b.BookingId) + 1 : 1,
                 CarId = bookingModel.CarId,
                 UserId = userId,
                 StartDate = bookingModel.StartDate,
@@ -66,8 +58,8 @@ namespace CarRental.Controllers
                 TotalPrice = totalPrice,
             };
 
-            _bookings.Add(newBooking);
-            SaveBookingsToSession();
+            _context.Bookings.Add(newBooking);
+            _context.SaveChanges();
 
             car.Status = "Rented";
 
@@ -75,36 +67,49 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public IActionResult History()
+        public IActionResult History(int page = 1, int pageSize = 3)
         {
             var userId = 1;
 
-            var userBookings = _bookings
+            var userBookingsQuery = _context.Bookings
                 .Where(b => b.UserId == userId)
-                .Select(b =>
+                .Include(b => b.Car)
+                .Select(b => new HistoryViewModel
                 {
-                    var car = _cars.FirstOrDefault(c => c.CarId == b.CarId);
-                    return new HistoryViewModel
-                    {
-                        BookingId = b.BookingId,
-                        Make = car?.Make,
-                        Model = car?.Model,
-                        StartDate = b.StartDate,
-                        EndDate = b.EndDate,
-                        TotalPrice = b.TotalPrice,
-                    };
-                }).ToList();
+                    BookingId = b.BookingId,
+                    Make = b.Car.Make,
+                    Model = b.Car.Model,
+                    StartDate = b.StartDate,
+                    EndDate = b.EndDate,
+                    TotalPrice = b.TotalPrice
+                });
 
-            return View(userBookings);
+
+            int totalItems = userBookingsQuery.Count();
+
+            var bookings = userBookingsQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var viewModel = new PaginatedHistoryViewModel
+            {
+                Bookings = bookings,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
+                TotalItems = totalItems
+            };
+
+            return View(viewModel);
         }
 
         [HttpGet]
         public IActionResult Confirmation(int bookingId)
         {
-            var booking = _bookings.FirstOrDefault(b => b.BookingId == bookingId);
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingId);
             if (booking == null) return NotFound("Booking not found.");
 
-            var car = _cars.FirstOrDefault(c => c.CarId == booking.CarId);
+            var car = _context.Cars.FirstOrDefault(c => c.CarId == booking.CarId);
             if (car == null) return NotFound("Car not found.");
 
             var confirmationViewModel = new ConfirmationViewModel
@@ -123,10 +128,10 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult Return(int bookingId)
         {
-            var booking = _bookings.FirstOrDefault(b => b.BookingId == bookingId);
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingId);
             if (booking == null) return NotFound("Booking not found.");
 
-            var car = _cars.FirstOrDefault(c => c.CarId == booking.CarId);
+            var car = _context.Cars.FirstOrDefault(c => c.CarId == booking.CarId);
             if (car == null) return NotFound("Car not found.");
 
             var returnViewModel = new ReturnViewModel
@@ -147,31 +152,28 @@ namespace CarRental.Controllers
         {
             if (!ModelState.IsValid) return View(bookingModel);
 
-            var booking = _bookings.FirstOrDefault(b => b.BookingId == bookingModel.BookingId);
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingModel.BookingId);
             if (booking == null) return NotFound("Booking not found.");
 
-            var car = _cars.FirstOrDefault(c => c.CarId == booking.CarId);
+            var car = _context.Cars.FirstOrDefault(c => c.CarId == booking.CarId);
             if (car == null) return NotFound("Car not found.");
 
-            _bookings.Remove(booking);
-            SaveBookingsToSession();
+            _context.SaveChanges();
 
             car.Status = "Available";
 
             return RedirectToAction("History");
         }
 
-        private List<Booking>? LoadBookingsFromSession(IHttpContextAccessor httpContextAccessor)
+        public decimal CalculateTotalPrice(DateTime startDate, DateTime endDate, decimal pricePerDay)
         {
-            var bookingsSession = httpContextAccessor.HttpContext?.Session?.GetString("Bookings");
-            return string.IsNullOrEmpty(bookingsSession)
-                ? _garage.GenerateBookings().ToList()
-                : JsonConvert.DeserializeObject<List<Booking>>(bookingsSession);
-        }
+            var totalDays = (endDate - startDate).Days;
 
-        private void SaveBookingsToSession()
-        {
-            HttpContext.Session.SetString("Bookings", JsonConvert.SerializeObject(_bookings));
+            if (totalDays < 1) totalDays = 1;
+
+            var totalPrice = totalDays * pricePerDay;
+
+            return totalPrice;
         }
     }
 }

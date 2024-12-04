@@ -1,4 +1,5 @@
-﻿@model List<CarRental.Models.ViewModels.Booking.HistoryViewModel>
+﻿@model CarRental.Models.ViewModels.Booking.PaginatedHistoryViewModel
+
 
 @{
     ViewData["Title"] = "Booking History";
@@ -18,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var booking in Model)
+        @foreach (var booking in Model.Bookings)
         {
             <tr>
                 <td>@booking.Make</td>
@@ -45,9 +46,18 @@
     </tbody>
 </table>
 
-<script>
-    setTimeout(function () {
-        let alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => alert.classList.remove('show'));
-    }, 3000);
-</script>
+<div class="container mt-4">
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("History", new { page = i })">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+

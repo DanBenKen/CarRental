@@ -1,6 +1,6 @@
 ﻿namespace CarRental.Models.ViewModels.Car
 {
-    public class CarListViewModel
+    public class PaginatedIndexViewModel
     {
         public IEnumerable<Models.Car> Cars { get; set; }
         public int CurrentPage { get; set; }

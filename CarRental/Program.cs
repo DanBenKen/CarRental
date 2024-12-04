@@ -1,5 +1,4 @@
 using CarRental;
-using CarRental.Utils;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +17,6 @@ builder.Services.AddDbContext<CarRentalContext>(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddSingleton<Garage>();
 
 var app = builder.Build();
 

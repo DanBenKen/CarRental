@@ -7,14 +7,10 @@ namespace CarRental.Controllers
 {
     public class CarController : Controller
     {
-        private readonly Garage _garage;
-        private readonly List<Car> _car;
         private readonly CarRentalContext _context;
 
-        public CarController(Garage garage, CarRentalContext context)
+        public CarController(CarRentalContext context)
         {
-            _garage = garage;
-            _car = _garage.GenerateCars().ToList();
             _context = context;
         }
 
@@ -49,7 +45,7 @@ namespace CarRental.Controllers
                 .Take(pageSize)
                 .ToList();
 
-            var viewModel = new CarListViewModel
+            var viewModel = new PaginatedIndexViewModel
             {
                 Cars = cars,
                 CurrentPage = page,
@@ -64,7 +60,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var cars = _car;
+            var cars = _context.Cars.AsQueryable();
 
             var car = cars.SingleOrDefault(c => c.CarId == id);
             if (car == null) return NotFound();
