@@ -1,52 +1,60 @@
 ﻿using CarRental.Models.ViewModels.Car;
+using CarRental.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Controllers
 {
     public class CarController : Controller
     {
-        private readonly CarRentalContext _context;
+        private readonly ICarService _carService;
 
-        public CarController(CarRentalContext context)
+        public CarController(ICarService carService)
         {
-            _context = context;
+            _carService = carService;
         }
 
-        public async Task<IActionResult> Index(string make, string model, decimal? minPrice, decimal? maxPrice, int page = 1, int pageSize = 6)
+        public IActionResult Index(string make, string model, decimal? minPrice, decimal? maxPrice, int page = 1, int pageSize = 6)
         {
-            var carsQuery = _context.Cars.AsQueryable();
+            var carsQuery = _carService.GetAllCars();
 
-            if (!string.IsNullOrWhiteSpace(make))
+            bool hasMake = !string.IsNullOrWhiteSpace(make);
+            bool hasModel = !string.IsNullOrWhiteSpace(model);
+            bool hasMinPrice = minPrice.HasValue;
+            bool hasMaxPrice = maxPrice.HasValue;
+
+            if (hasMake || hasModel || hasMinPrice || hasMaxPrice)
             {
-                carsQuery = carsQuery.Where(c => c.Make.ToLower().Contains(make.Trim().ToLower()));
+                if (hasMake)
+                {
+                    carsQuery = carsQuery.Where(c => c.Make.ToLower().Contains(make.Trim().ToLower())).ToList();
+                }
+
+                if (hasModel)
+                {
+                    carsQuery = carsQuery.Where(c => c.Model.ToLower().Contains(model.Trim().ToLower())).ToList();
+                }
+
+                if (hasMinPrice)
+                {
+                    carsQuery = carsQuery.Where(c => c.PricePerDay >= minPrice.Value).ToList();
+                }
+
+                if (hasMaxPrice)
+                {
+                    carsQuery = carsQuery.Where(c => c.PricePerDay <= maxPrice.Value).ToList();
+                }
             }
 
-            if (!string.IsNullOrWhiteSpace(model))
-            {
-                carsQuery = carsQuery.Where(c => c.Model.ToLower().Contains(model.Trim().ToLower()));
-            }
+            int totalItems = carsQuery.Count();
 
-            if (minPrice.HasValue)
-            {
-                carsQuery = carsQuery.Where(c => c.PricePerDay >= minPrice.Value);
-            }
-
-            if (maxPrice.HasValue)
-            {
-                carsQuery = carsQuery.Where(c => c.PricePerDay <= maxPrice.Value);
-            }
-
-            int totalItems = await carsQuery.CountAsync();
-
-            var cars = await carsQuery
+            carsQuery = carsQuery
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToList();
 
             var viewModel = new PaginatedIndexViewModel
             {
-                Cars = cars,
+                Cars = carsQuery,
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
                 TotalItems = totalItems
@@ -56,9 +64,9 @@ namespace CarRental.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
-            var car = await _context.Cars.SingleOrDefaultAsync(c => c.CarId == id);
+            var car = _carService.GetCarById(id);
             if (car == null) return NotFound();
 
             return View(car);
